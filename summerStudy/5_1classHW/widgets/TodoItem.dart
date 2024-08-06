@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
-import '/main.dart';
+import '/data/models/todo.dart';
 
 class TodoItem extends StatelessWidget {
-  final String content;
-  const TodoItem({super.key, required this.content});
+  final Todo todo;
+  final VoidCallback onEdit;
+  final VoidCallback onComplete;
+  const TodoItem({
+    super.key,
+    required this.todo,
+    required this.onEdit,
+    required this.onComplete,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -17,23 +24,12 @@ class TodoItem extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(content),
+          Text(todo.content),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              TextButton(
-                  onPressed: () async {
-                    await Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: ((context) => const EditTodoPage()),
-                        settings: RouteSettings(arguments: content),
-                      ),
-                    );
-                    print('수정완료');
-                  },
-                  child: const Text('수정')),
-              TextButton(onPressed: () {}, child: const Text('완료')),
+              TextButton(onPressed: onEdit, child: const Text('수정')),
+              TextButton(onPressed: onComplete, child: const Text('완료')),
             ],
           )
         ],
